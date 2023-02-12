@@ -21,7 +21,7 @@ services:
       timeout: 5s
       retries: 5
   configserver:
-    image: ostock/myconfigserver:0.0.1-SNAPSHOT
+    image: ostock/configserver:0.0.1-SNAPSHOT
     ports:
        - "8071:8071"
     environment:
@@ -29,12 +29,12 @@ services:
     networks:
       backend:
         aliases:
-          - "myconfigserver"
-  mylicensingservice:
-    image: ostock/mylicensing-service:0.0.1-SNAPSHOT
+          - "configserver"
+  licensingservice:
+    image: ostock/licensing-service:0.0.2-SNAPSHOT
     environment:
       PROFILE: "dev"
-      CONFIGSERVER_URI: "http://myconfigserver:8071"
+      CONFIGSERVER_URI: "http://configserver:8071"
       CONFIGSERVER_PORT:   "8071"
       DATABASESERVER_PORT: "5432"
       ENCRYPT_KEY:       "IMSYMMETRIC"
@@ -47,7 +47,7 @@ services:
       - "8080:8080"
     networks:
       - backend
-      
+
 networks:
   backend:
     driver: bridge
